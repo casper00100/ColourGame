@@ -3,6 +3,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.Random;
 
+//test
+
 public class ColourSequence extends Rectangle {
 
     //declare
