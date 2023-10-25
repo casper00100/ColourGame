@@ -14,8 +14,9 @@ public class GameFrame extends JFrame {
     GameFrame(){
 
         //finish intantiating withing constructor
-        panel = new GamePanel();
         panel2 = new ButtonPanel();
+        panel = new GamePanel(panel2);  // Passing panel2 to GamePanel
+        
         this.add(panel,BorderLayout.NORTH);
         this.add(panel2,BorderLayout.SOUTH);
 

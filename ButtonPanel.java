@@ -15,6 +15,9 @@ public class ButtonPanel extends JPanel implements ActionListener {
     int maximumButtons = minimumButtons + amountButtons;//13
     JButton[] colorButtons = new JButton[maximumButtons];
 
+    public JButton[] getColorButtons() {
+        return colorButtons;
+    }
 
     // static final int BUTTON_SIZE = 100;
     // static final int MAX_BUTTONS = 12;
@@ -38,6 +41,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
     // Level level;
     // ColourSequence colourSequence;
     // Mode mode;
+
 
 
 
