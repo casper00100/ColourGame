@@ -16,7 +16,7 @@ public class PressedSequence extends Rectangle {
     }
 
     public void draw(Graphics g) {
-
+        
     }
 
 }
