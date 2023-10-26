@@ -5,6 +5,10 @@ public class ColourGame {
         //instance
         new HomeFrame();
 
+
+        //test
+        
+
     }
 
 }
