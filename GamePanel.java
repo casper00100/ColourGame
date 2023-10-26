@@ -28,6 +28,9 @@ public class GamePanel extends JPanel implements ActionListener {
     private javax.swing.Timer sequenceTimer; 
 	Random random;
 
+    private int round = 1; // start at round 1
+    private boolean waitingForUserInput = false; // track when we're waiting for the user to replicate sequence
+
     PlayerTurn playerTurn;
     Score score;
     Level level;
@@ -44,7 +47,17 @@ public class GamePanel extends JPanel implements ActionListener {
     public GamePanel(ButtonPanel panelRef) {
 
         this.buttonPanelRef = panelRef;
-        
+        //Add a start button
+        JButton startButton = new JButton("Start Game");
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startGame();
+            }
+        });
+        this.add(startButton);
+
+
         random = new Random();
         this.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         this.setBackground(Color.BLACK);
@@ -96,10 +109,39 @@ public class GamePanel extends JPanel implements ActionListener {
         g.drawLine(0, 350, GAME_WIDTH, 350);
 
     }
-    public void gameOver(Graphics g) {
+    public void gameOver() {
+        // Reset the game state
+        round = 1;
+        waitingForUserInput = false;
+        currentSequenceIndex = 0;
+        // Display the game is over.
+        // Show a popup message
+        int choice = JOptionPane.showOptionDialog(this,
+                "Game Over!",
+                "Game Over",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                new String[]{"Restart", "Exit"}, // The two options
+                "default");
 
+        if (choice == JOptionPane.YES_OPTION) {
+            restartGame(); 
+        } else if (choice == JOptionPane.NO_OPTION) {
+            System.exit(0);  // Close the application
+        }
     }
-
+    
+    public void restartGame() {
+        // Reset all your game's variables and components
+        round = 1;
+        waitingForUserInput = false;
+        currentSequenceIndex = 0;
+        //TODO score reset toevoegen
+        colourSequence = new ColourSequence();
+        startGame(); //restart a new game.
+    }
+    
     //parts of panel
     public void newColourSequence() {
         color1 = random.nextInt(GAME_WIDTH);
@@ -125,41 +167,49 @@ public class GamePanel extends JPanel implements ActionListener {
     //Display the colour sequence by the computer
     private void displaySequence() {
         currentSequenceIndex = 0; // Reset the index
-
-        // Using javax.swing.Timer for the sequence display
-        sequenceTimer = new javax.swing.Timer(500, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (currentSequenceIndex < colourSequence.getSequence().length) {
-                    // Hide all buttons before showing the next color
-                    for (JButton btn : buttonPanelRef.getColorButtons()) {
-                        btn.setVisible(false);
-                    }
     
-                    // Fetch the current color in sequence
-                    Color currentColor = colourSequence.getSequence()[currentSequenceIndex];
+        sequenceTimer = new javax.swing.Timer(1000, e -> {
+            if (currentSequenceIndex < round) { // We use round as the number of colors to show
+                Color currentColor = colourSequence.getSequence()[currentSequenceIndex];
     
-                    // Find the button with the matching color and display it
-                    for (JButton btn : buttonPanelRef.getColorButtons()) {
-                        if (btn.getBackground().equals(currentColor)) {
-                            btn.setVisible(true);
-                            break; // Exit the loop once the button is found
-                        }
-                    }
-    
-                    currentSequenceIndex++; // Move to the next color in the sequence
-                } else {
-                    // Stop the timer when we've shown the entire sequence
-                    sequenceTimer.stop();
-                    // Show all buttons after the sequence is displayed
-                    for (JButton btn : buttonPanelRef.getColorButtons()) {
+                for (JButton btn : buttonPanelRef.getColorButtons()) {
+                    if (btn.getBackground().equals(currentColor)) {
                         btn.setVisible(true);
+    
+                        javax.swing.Timer hideTimer = new javax.swing.Timer(500, event -> {
+                            btn.setVisible(false);
+                        });
+                        hideTimer.setRepeats(false); 
+                        hideTimer.start();
                     }
                 }
+                currentSequenceIndex++;
+            } else {
+                sequenceTimer.stop();
+                waitingForUserInput = true;
+                //Print it's the next player's turn.
             }
         });
-    
         sequenceTimer.start();
+    }
+    
+    //Check if user input equals sequence colour
+    public void playerPressedColor(Color color) {
+        if (waitingForUserInput) {
+            // Compare the pressed button's color to the current color in the sequence
+            if (!color.equals(colourSequence.getSequence()[currentSequenceIndex])) {
+                gameOver(); // If the colors don't match, game over
+                return;
+            }
+    
+            currentSequenceIndex++;
+    
+            if (currentSequenceIndex == round) { // Player successfully replicated the sequence
+                waitingForUserInput = false;
+                round++;
+                displaySequence(); // Start next round
+            }
+        }
     }
     
 
