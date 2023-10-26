@@ -11,7 +11,9 @@ public class Score extends Rectangle {
     int score_player1;
     int score_player2;
     //TODO name input code
-
+    HomeFrame homeFrame = new HomeFrame();
+    String nameplayer1 = homeFrame.name_player1;
+    String nameplayer2 = homeFrame.name_player2;
 
     private String name_player1;
     private String name_player2;
@@ -30,8 +32,8 @@ public class Score extends Rectangle {
         g.setFont(new Font("Consolas", Font.PLAIN,45));
 
         g.drawString("Score", 0, 100);
-        g.drawString(name_player1 + ": " + String.valueOf(score_player1), 0, 200);
-        g.drawString(name_player2 + ": " + String.valueOf(score_player2), 0, 300);
+        g.drawString(nameplayer1 + ": " + String.valueOf(score_player1), 0, 200);
+        g.drawString(nameplayer2 + ": " + String.valueOf(score_player2), 0, 300);
         
     }
 

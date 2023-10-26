@@ -10,10 +10,11 @@ public class PlayerTurn extends Rectangle {
 	static int GAME_HEIGHT;
     boolean turn_player1;
     // int turn_player2;
-    String name_player1 = "player 1";
-    // name_player1 = "player 1";
-    String name_player2 = "player 2";
-    // name_player1 = "player 2";
+
+    HomeFrame homeFrame = new HomeFrame();
+    String nameplayer1 = homeFrame.name_player1;
+    String nameplayer2 = homeFrame.name_player2;
+
     Random random;
 
     //constructor
@@ -46,10 +47,10 @@ public class PlayerTurn extends Rectangle {
             
         if (random.nextInt(2) == 0) {
             turn_player1 = true;
-            g.drawString(name_player1, 350, 200);
+            g.drawString(nameplayer1, 350, 200);
         } else {
             turn_player1 = false;
-            g.drawString(name_player2, 350, 200);
+            g.drawString(nameplayer2, 350, 200);
 
         }
 
