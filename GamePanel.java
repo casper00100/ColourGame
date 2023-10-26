@@ -224,8 +224,6 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
     
-
-    
     //button pressed
     @Override
     public void actionPerformed(ActionEvent e) {
