@@ -11,10 +11,10 @@ public class Score extends Rectangle {
     int score_player1;
     int score_player2;
     //TODO name input code
-    String name_player1 = "player 1";
-    // name_player1 = "player 1";
-    String name_player2 = "player 2";
-    // name_player1 = "player 2";
+
+
+    private String name_player1;
+    private String name_player2;
 
     //constructor
     Score(int GAME_WIDTH, int GAME_HEIGHT) {
