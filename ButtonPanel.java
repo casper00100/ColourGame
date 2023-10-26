@@ -11,8 +11,8 @@ public class ButtonPanel extends JPanel implements ActionListener {
     static final Dimension SCREEN2_SIZE = new Dimension(Sequence_WIDTH, Sequence_HEIGHT);
 
     int minimumButtons = 3;
-    int amountButtons = 10;
-    int maximumButtons = minimumButtons + amountButtons;//13
+    int amountButtons = 5;
+    int maximumButtons = minimumButtons + amountButtons;//8
     JButton[] colorButtons = new JButton[maximumButtons];
 
     public JButton[] getColorButtons() {
@@ -87,7 +87,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
             colorButtons[i].addActionListener(this);
             colorButtons[i].setSize(100, 100);
 
-            int rn = random.nextInt(1,5);
+            int rn = random.nextInt(1,6);
             if (rn == 1) {
                 colorButtons[i].setBackground(Color.RED);
             } else if (rn == 2) {
@@ -95,8 +95,12 @@ public class ButtonPanel extends JPanel implements ActionListener {
             } else if (rn == 3) {
                 colorButtons[i].setBackground(Color.BLUE);
             } else if (rn == 4) {
+                colorButtons[i].setBackground(Color.MAGENTA);
+            } else if (rn == 5) {
                 colorButtons[i].setBackground(Color.YELLOW);
             }
+            
+        
         }
 
     }

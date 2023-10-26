@@ -65,7 +65,7 @@ public class GamePanel extends JPanel implements ActionListener {
         colourSequence = new ColourSequence();
 
         //TODO timer countdown from 10 sec
-        timer = new PlayerTimer(10);  // replace 'your.package.name' with the package name of your custom Timer class
+        timer = new PlayerTimer(10);
 
         colourSequence = new ColourSequence();
         displaySequence();
@@ -122,42 +122,48 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
 
-    //other stuff
+    //Display the colour sequence by the computer
     private void displaySequence() {
         currentSequenceIndex = 0; // Reset the index
 
         // Using javax.swing.Timer for the sequence display
-        sequenceTimer = new javax.swing.Timer(1000, e -> {
-            // Reset visibility for all buttons before showing the next color
-            for (JButton btn : buttonPanelRef.getColorButtons()) {
-                btn.setVisible(false);
-            }
-
-            if (currentSequenceIndex < colourSequence.getSequence().length) {
-                Color currentColor = colourSequence.getSequence()[currentSequenceIndex];
-
-                // Find the button with the matching color and "display" it
-                for (JButton btn : buttonPanelRef.getColorButtons()) {
-                    if (btn.getBackground().equals(currentColor)) {
+        sequenceTimer = new javax.swing.Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (currentSequenceIndex < colourSequence.getSequence().length) {
+                    // Hide all buttons before showing the next color
+                    for (JButton btn : buttonPanelRef.getColorButtons()) {
+                        btn.setVisible(false);
+                    }
+    
+                    // Fetch the current color in sequence
+                    Color currentColor = colourSequence.getSequence()[currentSequenceIndex];
+    
+                    // Find the button with the matching color and display it
+                    for (JButton btn : buttonPanelRef.getColorButtons()) {
+                        if (btn.getBackground().equals(currentColor)) {
+                            btn.setVisible(true);
+                            break; // Exit the loop once the button is found
+                        }
+                    }
+    
+                    currentSequenceIndex++; // Move to the next color in the sequence
+                } else {
+                    // Stop the timer when we've shown the entire sequence
+                    sequenceTimer.stop();
+                    // Show all buttons after the sequence is displayed
+                    for (JButton btn : buttonPanelRef.getColorButtons()) {
                         btn.setVisible(true);
-
-                        // Increment the sequence index after this iteration
-                        currentSequenceIndex++; 
                     }
                 }
-            } else {
-                // Stop the timer when we've shown the entire sequence
-                sequenceTimer.stop();
             }
         });
-
+    
         sequenceTimer.start();
-    }   
-
-    public void checkColour() {
-
     }
+    
 
+    
     //button pressed
     @Override
     public void actionPerformed(ActionEvent e) {

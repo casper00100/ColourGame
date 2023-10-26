@@ -20,7 +20,7 @@ public class ColourSequence extends Rectangle {
         }
     
         private void generateRandomSequence() {
-            Color[] possibleColors = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW};
+            Color[] possibleColors = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.MAGENTA};
             
             for (int i = 0; i < sequence.length; i++) {
                 sequence[i] = possibleColors[random.nextInt(possibleColors.length)];
@@ -30,4 +30,4 @@ public class ColourSequence extends Rectangle {
         public Color[] getSequence() {
             return sequence;
         }
-    }
+}
