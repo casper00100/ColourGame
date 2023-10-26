@@ -17,8 +17,8 @@ public class HomeFrame extends JFrame implements ActionListener {
     JLabel name2Label = new JLabel("Player 2:");
     JLabel messageLabel = new JLabel("New Game:");
 
-    String name_player1;
-    String name_player2;
+    public static String name_player1;
+    public static String name_player2;
 
     int GAME_WIDTH;
     int GAME_HEIGHT;
@@ -95,24 +95,12 @@ public class HomeFrame extends JFrame implements ActionListener {
             buttonPanel = new ButtonPanel();
             gamePanel.setButtonPanel(buttonPanel);  // Set the ButtonPanel reference in GamePanel
             buttonPanel.setGamePanel(gamePanel);   // Set the GamePanel reference in ButtonPanel
-
-            getName1();
-            getName2();      
+     
             new GameFrame();
             this.setVisible(false);
         }
 
     }
-
-    public String getName1() {
-        return name_player1;
-    }
-
-    public String getName2() {
-        return name_player2;
-    }
-
-
 
 }
 
