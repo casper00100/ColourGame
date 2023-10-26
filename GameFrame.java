@@ -9,6 +9,7 @@ public class GameFrame extends JFrame {
     //instance
     GamePanel panel;
     ButtonPanel panel2;
+    
 
     //constructor
     GameFrame(){

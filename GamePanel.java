@@ -6,6 +6,7 @@ import java.util.Random;
 public class GamePanel extends JPanel implements ActionListener {
 
     //declare things
+
     static final int GAME_WIDTH = 1400;
     static final int GAME_HEIGHT = 600;
     static final Dimension SCREEN_SIZE = new Dimension(GAME_WIDTH, GAME_HEIGHT);
@@ -48,14 +49,6 @@ public class GamePanel extends JPanel implements ActionListener {
         this.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         this.setBackground(Color.BLACK);
         this.setFocusable(true);
-        mode();
-
-    }
-
-    public void mode() {
-
-        //TODO some if statement
-        //if player clicks on the button start
         startGame();
 
     }
@@ -70,9 +63,6 @@ public class GamePanel extends JPanel implements ActionListener {
         mode = new Mode(GAME_WIDTH, GAME_HEIGHT);
         
         colourSequence = new ColourSequence();
-        this.setFocusable(true);
-        // this.addKeyListener(new AL());
-        this.setPreferredSize(SCREEN_SIZE);
 
         //TODO timer countdown from 10 sec
         timer = new PlayerTimer(10);  // replace 'your.package.name' with the package name of your custom Timer class
