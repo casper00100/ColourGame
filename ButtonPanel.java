@@ -11,8 +11,8 @@ public class ButtonPanel extends JPanel implements ActionListener {
     static final Dimension SCREEN2_SIZE = new Dimension(Sequence_WIDTH, Sequence_HEIGHT);
 
     int minimumButtons = 3;
-    int amountButtons = 5;
-    int maximumButtons = minimumButtons + amountButtons;//8
+    int amountButtons = 2;
+    int maximumButtons = minimumButtons + amountButtons;//5
     JButton[] colorButtons = new JButton[maximumButtons];
 
      // Reference to the GamePanel
@@ -94,7 +94,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
                 for (int i = minimumButtons; i < maximumButtons; i++) {
                     colorButtons[i] = new JButton();
                     colorButtons[i].setVisible(false);  // Button invisible by default
-                    
+
                     this.add(colorButtons[i]);
                     colorButtons[i].setFont(new Font("MV Boli",Font.BOLD,100));
                     colorButtons[i].setFocusable(false);

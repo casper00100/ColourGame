@@ -167,18 +167,17 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
 
-    //Display the colour sequence by the computer
     private void displaySequence() {
         currentSequenceIndex = 0; // Reset the index
     
         sequenceTimer = new javax.swing.Timer(1000, e -> {
             if (currentSequenceIndex < round) { // We use round as the number of colors to show
                 Color currentColor = colourSequence.getSequence()[currentSequenceIndex];
-                
+    
                 for (JButton btn : buttonPanelRef.getColorButtons()) {
                     btn.setVisible(false);  // Hide all buttons first
                 }
-
+    
                 for (JButton btn : buttonPanelRef.getColorButtons()) {
                     if (btn.getBackground().equals(currentColor)) {
                         btn.setVisible(true);
@@ -194,15 +193,17 @@ public class GamePanel extends JPanel implements ActionListener {
             } else {
                 sequenceTimer.stop();
                 waitingForUserInput = true;
-                //Print it's the next player's turn.
+                
+                // Make all buttons visible again for the player's turn
+                for (JButton btn : buttonPanelRef.getColorButtons()) {
+                    btn.setVisible(true);
+                }
+                // Optionally: Print it's the next player's turn.
             }
         });
         sequenceTimer.start();
-        
-        for (JButton btn : buttonPanelRef.getColorButtons()) {
-        btn.setVisible(false); //Set all buttons to visible again.
-        }
     }
+    
     
     //Check if user input equals sequence colour
     public void playerPressedColor(Color color) {
