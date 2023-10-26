@@ -41,6 +41,13 @@ public class PlayerTurn extends Rectangle {
 
         random = new Random();
 
+        if (nameplayer1.equals("")) {
+            nameplayer1 = "player 1";
+        }
+        if (nameplayer2.equals("")) {
+            nameplayer2 = "player 2";
+        }
+
         g.setColor(Color.WHITE);
         g.setFont(new Font("Consolas", Font.PLAIN,45));
         g.drawString("Turn:", 350, 100);
