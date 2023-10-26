@@ -15,11 +15,14 @@ public class GameFrame extends JFrame {
     GameFrame(){
 
         //finish intantiating withing constructor
-        panel2 = new ButtonPanel();
-        panel = new GamePanel(panel2);  // Passing panel2 to GamePanel
-        
-        this.add(panel,BorderLayout.NORTH);
-        this.add(panel2,BorderLayout.SOUTH);
+        panel = new GamePanel();   // Create GamePanel without a ButtonPanel reference
+        panel2 = new ButtonPanel();  // Create ButtonPanel without a GamePanel reference
+
+        panel.setButtonPanel(panel2);  // Set the ButtonPanel reference in GamePanel
+        panel2.setGamePanel(panel);  // Set the GamePanel reference in ButtonPanel
+
+        this.add(panel, BorderLayout.NORTH);
+        this.add(panel2, BorderLayout.SOUTH);
 
         this.setTitle("Colour Game");
 		this.setResizable(false);

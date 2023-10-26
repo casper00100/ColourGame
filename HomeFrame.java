@@ -23,6 +23,9 @@ public class HomeFrame extends JFrame implements ActionListener {
     int GAME_WIDTH;
     int GAME_HEIGHT;
 
+    GamePanel gamePanel; // Add this
+    ButtonPanel buttonPanel; // Add this
+
     HomeFrame() {
 
 		name1Label.setBounds(50,100,75,25);
@@ -87,6 +90,11 @@ public class HomeFrame extends JFrame implements ActionListener {
         if (e.getSource() == startGameButton) {
             name_player1 = name1Field.getText();
             name_player2 = name2Field.getText();
+
+            gamePanel = new GamePanel();
+            buttonPanel = new ButtonPanel();
+            gamePanel.setButtonPanel(buttonPanel);  // Set the ButtonPanel reference in GamePanel
+            buttonPanel.setGamePanel(gamePanel);   // Set the GamePanel reference in ButtonPanel
 
             getName1();
             getName2();      

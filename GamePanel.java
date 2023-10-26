@@ -44,9 +44,8 @@ public class GamePanel extends JPanel implements ActionListener {
     private ButtonPanel buttonPanelRef;  
 
     //constructor
-    public GamePanel(ButtonPanel panelRef) {
+    public GamePanel() {
 
-        this.buttonPanelRef = panelRef;
         //Add a start button
         JButton startButton = new JButton("Start Game");
         startButton.addActionListener(new ActionListener() {
@@ -64,6 +63,10 @@ public class GamePanel extends JPanel implements ActionListener {
         this.setFocusable(true);
         startGame();
 
+    }
+
+    public void setButtonPanel(ButtonPanel panelRef) {
+        this.buttonPanelRef = panelRef;
     }
 
     public void startGame() {
@@ -171,7 +174,11 @@ public class GamePanel extends JPanel implements ActionListener {
         sequenceTimer = new javax.swing.Timer(1000, e -> {
             if (currentSequenceIndex < round) { // We use round as the number of colors to show
                 Color currentColor = colourSequence.getSequence()[currentSequenceIndex];
-    
+                
+                for (JButton btn : buttonPanelRef.getColorButtons()) {
+                    btn.setVisible(false);  // Hide all buttons first
+                }
+                
                 for (JButton btn : buttonPanelRef.getColorButtons()) {
                     if (btn.getBackground().equals(currentColor)) {
                         btn.setVisible(true);
