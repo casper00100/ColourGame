@@ -178,7 +178,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 for (JButton btn : buttonPanelRef.getColorButtons()) {
                     btn.setVisible(false);  // Hide all buttons first
                 }
-                
+
                 for (JButton btn : buttonPanelRef.getColorButtons()) {
                     if (btn.getBackground().equals(currentColor)) {
                         btn.setVisible(true);
@@ -198,6 +198,10 @@ public class GamePanel extends JPanel implements ActionListener {
             }
         });
         sequenceTimer.start();
+        
+        for (JButton btn : buttonPanelRef.getColorButtons()) {
+        btn.setVisible(false); //Set all buttons to visible again.
+        }
     }
     
     //Check if user input equals sequence colour
