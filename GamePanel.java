@@ -213,7 +213,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 gameOver(); // If the colors don't match, game over
                 return;
             }
-    //dfdssf
+
             currentSequenceIndex++;
     
             if (currentSequenceIndex == round) { // Player successfully replicated the sequence
