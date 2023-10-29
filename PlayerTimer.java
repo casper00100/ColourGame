@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.Random;
+import java.text.DecimalFormat;
 
 public class PlayerTimer extends Rectangle {
 
@@ -30,7 +31,7 @@ public class PlayerTimer extends Rectangle {
 
     public void update() {
         // Implement countdown logic here
-        countdown = countdown - 1;
+        countdown = countdown - 0.1;
         if (countdown > 5) {
             extraPoint = 5;
         } else {
@@ -45,12 +46,14 @@ public class PlayerTimer extends Rectangle {
     // Draw method to display the timer on screen
     public void draw(Graphics g) {
 
+        DecimalFormat df = new DecimalFormat("#.#");     
+
         g.setColor(Color.WHITE);
         g.setFont(new Font("Consolas", Font.PLAIN, 45));
         g.drawString("Time left:", 1100, 100);
 
         // if (replicating) {
-        g.drawString(String.valueOf(countdown), 1100, 200);
+        g.drawString(String.valueOf(df.format(countdown)), 1100, 200);
         // }               
 
 

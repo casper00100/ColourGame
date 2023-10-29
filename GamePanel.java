@@ -51,7 +51,8 @@ public class GamePanel extends JPanel implements ActionListener {
     public static int scorePoint1;
     public static int scorePoint2;
 
-  
+    JLabel message = new JLabel();
+
 
     //constructor
     public GamePanel() {
@@ -72,7 +73,14 @@ public class GamePanel extends JPanel implements ActionListener {
         this.setBackground(Color.BLACK);
         this.setFocusable(true);
         startGame();
+        this.setLayout(new BorderLayout());
 
+        this.add(message, BorderLayout.PAGE_END);
+        // message.setBounds(500,500,500,100);
+        message.setBackground(new Color(50,50,50));
+        message.setForeground(new Color(25,255,0));
+        message.setFont(new Font("MV Boli",Font.PLAIN,35));
+        // message.setText("test message");
     }
 
     public void setButtonPanel(ButtonPanel panelRef) {
@@ -185,7 +193,7 @@ public class GamePanel extends JPanel implements ActionListener {
         double countdown = 10;
         timer = new PlayerTimer(countdown);
     
-        countdownTimer = new javax.swing.Timer(1000, new ActionListener() {
+        countdownTimer = new javax.swing.Timer(100, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 timer.update();
                 repaint();
@@ -251,9 +259,11 @@ public class GamePanel extends JPanel implements ActionListener {
         if (waitingForUserInput) {
             // Compare the pressed button's color to the current color in the sequence
             if (!color.equals(colourSequence.getSequence()[currentSequenceIndex])) {
+                message.setText("Lost");
                 countdownTimer.stop();
                 gameOver(); // If the colors don't match, game over
                 return;
+                
             }
     
             currentSequenceIndex++;
