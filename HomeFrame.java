@@ -97,10 +97,11 @@ public class HomeFrame extends JFrame implements ActionListener {
             buttonPanel.setGamePanel(gamePanel);   // Set the GamePanel reference in ButtonPanel
      
             new GameFrame();
-            this.setVisible(false);
+            this.dispose(); // Close the HomeFrame after starting the game
         }
 
     }
 
 }
+
 

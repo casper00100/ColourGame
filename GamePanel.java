@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.Random;
+import java.awt.Graphics;
 
 
 public class GamePanel extends JPanel implements ActionListener {
@@ -191,7 +192,6 @@ public class GamePanel extends JPanel implements ActionListener {
     
 
     private void displaySequence() {
-        countdownTimer.stop();
         currentSequenceIndex = 0; // Reset the index
     
         sequenceTimer = new javax.swing.Timer(1500, e -> {
@@ -216,7 +216,6 @@ public class GamePanel extends JPanel implements ActionListener {
                 currentSequenceIndex++;
             } else {
                 sequenceTimer.stop();
-                countdownTimer.start();
                 waitingForUserInput = true;
     
                 // Make all buttons visible again for the player's turn
@@ -230,53 +229,56 @@ public class GamePanel extends JPanel implements ActionListener {
     
     
     //Check if user input equals sequence colour
-public void playerPressedColor(Color color) {
-    if (waitingForUserInput) {
-        // Compare the pressed button's color to the current color in the sequence
-        if (!color.equals(colourSequence.getSequence()[currentSequenceIndex])) {
-            gameOver(); // If the colors don't match, game over
-            return;
-        }
-
-        currentSequenceIndex++;
-
-        if (currentSequenceIndex == colourSequence.getSequence().length) { // Player successfully replicated the sequence
-            waitingForUserInput = false;
-
-            // Check if it's Player 1's turn and switch turns
-            if (player1Turn) {
-                player1Turn = false; 
-                JOptionPane.showMessageDialog(this, "Player 2's turn");
-                playerTurn.setPlayer1Turn(player1Turn); 
-                currentSequenceIndex = 0;
-                colourSequence = new ColourSequence(round);
-                countdownTimer.stop();
-                timer = new PlayerTimer(10);
-                displaySequence();
+    public void playerPressedColor(Color color) {
+        if (waitingForUserInput) {
+            // Compare the pressed button's color to the current color in the sequence
+            if (!color.equals(colourSequence.getSequence()[currentSequenceIndex])) {
+                gameOver(); // If the colors don't match, game over
+                return;
             }
-            else {
-                player1Turn = true; 
-                playerTurn.setPlayer1Turn(player1Turn);
-                currentSequenceIndex = 0;
-                if (round == 10) {
-                    JOptionPane.showMessageDialog(this, "Congratulations! Both players have completed all rounds.");
-                    gameOver();
-                    return;
+    
+            currentSequenceIndex++;
+    
+            if (currentSequenceIndex == colourSequence.getSequence().length) { // Player successfully replicated the sequence
+                waitingForUserInput = false;
+    
+                if (player1Turn) {
+                    player1Turn = false; // Switch to player 2
+                    JOptionPane.showMessageDialog(this, "Player 2's turn");
+                    currentSequenceIndex = 0; // Reset index for Player 2
+                    displaySequence();
+                } else {
+                    if (round == 10) { // Check if it's the last round
+                        JOptionPane.showMessageDialog(this, "Congratulations! Both players have completed all rounds.");
+                        gameOver();
+                        return;
+                    }
+                    round++;
+                    player1Turn = true; // Switch back to player 1 for the new round
+                    if (player1Turn) {
+                        player1Turn = false; 
+                        playerTurn.setPlayer1Turn(player1Turn); // Update the player turn
+                        currentSequenceIndex = 0; 
+                        displaySequence();
+                    } else {
+                        player1Turn = true; 
+                        playerTurn.setPlayer1Turn(player1Turn); // Update the player turn
+                    }
+                    
+                    colourSequence = new ColourSequence(round);
+                    currentSequenceIndex = 0; // Reset index for the new sequence
+                    displaySequence();
                 }
-                round++;
-                colourSequence = new ColourSequence(round); 
-                countdownTimer.stop();
-                timer = new PlayerTimer(10);
-                displaySequence();
             }
-            
         }
     }
-}
-
+    
+    
+    
     //button pressed
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
     }
+
 }
