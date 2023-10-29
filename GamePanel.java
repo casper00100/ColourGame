@@ -46,7 +46,12 @@ public class GamePanel extends JPanel implements ActionListener {
     private boolean player1Turn = true; // Start with player 1
 
     // Make a reference to ButtonPanel, used in displaySequence()
-    private ButtonPanel buttonPanelRef;  
+    private ButtonPanel buttonPanelRef;
+
+    public static int scorePoint1;
+    public static int scorePoint2;
+
+  
 
     //constructor
     public GamePanel() {
@@ -258,9 +263,11 @@ public class GamePanel extends JPanel implements ActionListener {
                 countdownTimer.stop();
                 waitingForUserInput = false;
                 if (player1Turn) {
+                    scorePoint1 = scorePoint1 + 10;
                     player1Turn = false;
                     JOptionPane.showMessageDialog(this, "Player 2's turn");
                 } else {
+                    scorePoint2 = scorePoint2 + 10;
                     player1Turn = true;
                     round++;
                     if (round > 10) {

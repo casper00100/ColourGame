@@ -14,6 +14,8 @@ public class PlayerTimer extends Rectangle {
     // private int time_observe = 10;        // Default time for observation mode
     private double countdown;
 
+    public static int extraPoint;
+
     // Constructor used to initialize dimensions
     public PlayerTimer(int GAME_WIDTH, int GAME_HEIGHT) {   
         PlayerTimer.GAME_WIDTH = GAME_WIDTH;
@@ -29,10 +31,15 @@ public class PlayerTimer extends Rectangle {
     public void update() {
         // Implement countdown logic here
         countdown = countdown - 1;
-
+        if (countdown > 5) {
+            extraPoint = 5;
+        } else {
+            extraPoint = 0;
+        }
         if (countdown < 0) {
             countdown = 0;
         }
+
     }
 
     // Draw method to display the timer on screen
