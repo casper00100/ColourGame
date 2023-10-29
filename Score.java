@@ -26,6 +26,12 @@ public class Score extends Rectangle {
 
     }
 
+    // PlayerTimer timeScore = new PlayerTimer();
+
+    public void calculateScore() {
+        // timeScore.getCountdown();
+    }
+
     public void draw(Graphics g) {
         
         if (nameplayer1.equals("")) {
