@@ -81,21 +81,24 @@ public class GamePanel extends JPanel implements ActionListener {
         colourSequence = new ColourSequence();
 
         //TODO timer countdown from 10 sec
-        timer = new PlayerTimer(10);
+
 
         colourSequence = new ColourSequence();
         displaySequence();
+
+        timer = new PlayerTimer(10);
+        newTimer();
     }
 
     //drawing and painting stuff on screen
     public void paintComponent(Graphics g) {
-
+        super.paintComponent(g);
         image = createImage(getWidth(), getHeight());
 		graphics = image.getGraphics();
 		draw(graphics);
 		g.drawImage(image,0,0,this);        
         
-        super.paintComponent(g);
+  
         draw(g);
 
     }
@@ -133,6 +136,8 @@ public class GamePanel extends JPanel implements ActionListener {
         } else if (choice == JOptionPane.NO_OPTION) {
             System.exit(0);  // Close the application
         }
+
+        
     }
     
     public void restartGame() {
@@ -163,6 +168,23 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void newTimer() {
+        double countdown = 10;
+        timer = new PlayerTimer(countdown);
+
+        javax.swing.Timer countdownTimer = new javax.swing.Timer(1000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                timer.update();
+                repaint();
+
+                if (timer.getCountdown() == 0) {
+                    countdownTimer.stop();
+                    gameOver();
+                }
+                
+            }
+        });
+
+        countdownTimer.start();
 
     }
 
