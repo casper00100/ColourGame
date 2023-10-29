@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     public static int scorePoint1;
     public static int scorePoint2;
-    public static int extraPoint;
+
   
 
     //constructor
