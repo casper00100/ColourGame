@@ -56,8 +56,15 @@ public class ButtonPanel extends JPanel implements ActionListener {
                 }
             });
         }
+        
     }
 
+    public void setAllButtonsVisibility(boolean visible) {
+        for (JButton button : colorButtons) {
+            button.setVisible(visible);
+        }
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");

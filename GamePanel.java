@@ -101,6 +101,7 @@ public class GamePanel extends JPanel implements ActionListener {
         score = new Score(GAME_WIDTH, GAME_HEIGHT);
         level = new Level(GAME_WIDTH, GAME_HEIGHT);
         mode = new Mode(GAME_WIDTH, GAME_HEIGHT);
+
         displaySequence();
         timer = new PlayerTimer(10);
         newTimer();
