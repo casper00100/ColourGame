@@ -78,12 +78,12 @@ public class GamePanel extends JPanel implements ActionListener {
         level = new Level(GAME_WIDTH, GAME_HEIGHT);
         mode = new Mode(GAME_WIDTH, GAME_HEIGHT);
         
-        colourSequence = new ColourSequence();
+        colourSequence = new ColourSequence(round);
 
         //TODO timer countdown from 10 sec
         timer = new PlayerTimer(10);
 
-        colourSequence = new ColourSequence();
+        colourSequence = new ColourSequence(round);
         displaySequence();
     }
 
@@ -112,6 +112,7 @@ public class GamePanel extends JPanel implements ActionListener {
         g.drawLine(0, 350, GAME_WIDTH, 350);
 
     }
+    
     public void gameOver() {
         // Reset the game state
         round = 1;
@@ -141,7 +142,7 @@ public class GamePanel extends JPanel implements ActionListener {
         waitingForUserInput = false;
         currentSequenceIndex = 0;
         //TODO score reset toevoegen
-        colourSequence = new ColourSequence();
+        colourSequence = new ColourSequence(round);
         startGame(); //restart a new game.
     }
     

@@ -1,33 +1,43 @@
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
 import java.util.Random;
 
-//Generate the colour sequence for the computer to show
-public class ColourSequence extends Rectangle {
+public class ColourSequence {
 
     //declare
-    static int GAME_WIDTH;
-	static int GAME_HEIGHT;
+    Color[] sequence; // Dynamic size based on current round
+
     Random random;
-    
-        // Maximum sequence is 10.
-        Color[] sequence = new Color[10]; 
-    
-        ColourSequence() {
-            random = new Random();
-            generateRandomSequence();
+
+    ColourSequence(int round) {
+        // Determine the size of the sequence based on the round
+        int sequenceSize = getSequenceSizeForRound(round);
+        sequence = new Color[sequenceSize];
+        random = new Random();
+        generateRandomSequence();
+    }
+
+    private int getSequenceSizeForRound(int round) {
+        if (round == 1 || round == 2) {
+            return 3;
+        } else if (round == 3 || round == 4) {
+            return 4;
+        } else if (round == 5 || round == 6) {
+            return 5;
+        } else if (round == 7 || round == 8) {
+            return 6;
+        } else {  // round 9 or 10
+            return 7;
         }
-    
-        private void generateRandomSequence() {
-            Color[] possibleColors = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.MAGENTA};
-            
-            for (int i = 0; i < sequence.length; i++) {
-                sequence[i] = possibleColors[random.nextInt(possibleColors.length)];
-            }
+    }
+
+    private void generateRandomSequence() {
+        Color[] possibleColors = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.MAGENTA};
+        for (int i = 0; i < sequence.length; i++) {
+            sequence[i] = possibleColors[random.nextInt(possibleColors.length)];
         }
-    
-        public Color[] getSequence() {
-            return sequence;
-        }
+    }
+
+    public Color[] getSequence() {
+        return sequence;
+    }
 }
