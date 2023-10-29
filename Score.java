@@ -20,7 +20,9 @@ public class Score extends Rectangle {
     
     int score_player1 = GamePanel.scorePoint1;
     int score_player2 = GamePanel.scorePoint2;
-
+    int extra_point = PlayerTimer.extraPoint;
+    int amount1 = score_player1 + extra_point;
+    int amount2 = score_player2 + extra_point;
 
 
 
@@ -52,8 +54,8 @@ public class Score extends Rectangle {
         g.setFont(new Font("Consolas", Font.PLAIN,45));
 
         g.drawString("Score", 0, 100);
-        g.drawString(nameplayer1 + ": " + score_player1, 0, 200);
-        g.drawString(nameplayer2 + ": " + score_player2, 0, 300);
+        g.drawString(nameplayer1 + ": " + amount1, 0, 200);
+        g.drawString(nameplayer2 + ": " + amount2, 0, 300);
         
     }
 
