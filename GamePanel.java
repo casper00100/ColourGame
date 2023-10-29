@@ -3,6 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.Random;
 
+
 public class GamePanel extends JPanel implements ActionListener {
 
     //declare things
@@ -27,6 +28,8 @@ public class GamePanel extends JPanel implements ActionListener {
     //java.swing.Timer is used for computer showing colours with a delay
     private javax.swing.Timer sequenceTimer; 
 	Random random;
+    private javax.swing.Timer countdownTimer; //Countdown timer initialized
+
 
     private int round = 1; // start at round 1
     private boolean waitingForUserInput = false; // track when we're waiting for the user to replicate sequence
@@ -38,7 +41,9 @@ public class GamePanel extends JPanel implements ActionListener {
 
     private int currentSequenceIndex = 0;
     private ColourSequence colourSequence;
-    
+
+    //Game starts with player1 in turn
+    private boolean player1Turn = true; // Start with player 1
 
     // Make a reference to ButtonPanel, used in displaySequence()
     private ButtonPanel buttonPanelRef;  
@@ -72,8 +77,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public void startGame() {
 
         //call things
-        playerTurn = new PlayerTurn(GAME_WIDTH, GAME_HEIGHT);
-
+        playerTurn = new PlayerTurn(GAME_WIDTH, GAME_HEIGHT, player1Turn);
         score = new Score(GAME_WIDTH, GAME_HEIGHT);
         level = new Level(GAME_WIDTH, GAME_HEIGHT);
         mode = new Mode(GAME_WIDTH, GAME_HEIGHT);
@@ -104,13 +108,11 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void draw(Graphics g) {
-
         score.draw(g);
         timer.draw(g);
         playerTurn.draw(g);
         level.draw(g);
         mode.draw(g);
-
         //lijn om panel duidelijker te maken
         g.drawLine(0, 350, GAME_WIDTH, 350);
 
@@ -171,34 +173,33 @@ public class GamePanel extends JPanel implements ActionListener {
     public void newTimer() {
         double countdown = 10;
         timer = new PlayerTimer(countdown);
-
-        javax.swing.Timer countdownTimer = new javax.swing.Timer(1000, new ActionListener() {
+    
+        countdownTimer = new javax.swing.Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 timer.update();
                 repaint();
-
+    
                 if (timer.getCountdown() == 0) {
                     countdownTimer.stop();
                     gameOver();
                 }
-                
             }
         });
-
+    
         countdownTimer.start();
-
     }
-
+    
 
     private void displaySequence() {
+        countdownTimer.stop();
         currentSequenceIndex = 0; // Reset the index
     
-        sequenceTimer = new javax.swing.Timer(1000, e -> {
-            if (currentSequenceIndex < round) { // We use round as the number of colors to show
+        sequenceTimer = new javax.swing.Timer(1500, e -> {
+            if (currentSequenceIndex < colourSequence.getSequence().length) {
                 Color currentColor = colourSequence.getSequence()[currentSequenceIndex];
     
                 for (JButton btn : buttonPanelRef.getColorButtons()) {
-                    btn.setVisible(false);  // Hide all buttons first
+                    btn.setVisible(false); // Hide all buttons first
                 }
     
                 for (JButton btn : buttonPanelRef.getColorButtons()) {
@@ -208,20 +209,20 @@ public class GamePanel extends JPanel implements ActionListener {
                         javax.swing.Timer hideTimer = new javax.swing.Timer(500, event -> {
                             btn.setVisible(false);
                         });
-                        hideTimer.setRepeats(false); 
+                        hideTimer.setRepeats(false);
                         hideTimer.start();
                     }
                 }
                 currentSequenceIndex++;
             } else {
                 sequenceTimer.stop();
+                countdownTimer.start();
                 waitingForUserInput = true;
-                
+    
                 // Make all buttons visible again for the player's turn
-                for (JButton btn : buttonPanelRef.getColorButtons()) {
-                    btn.setVisible(true);
+                for (JButton button : buttonPanelRef.getColorButtons()) {
+                    button.setVisible(true);
                 }
-                // Optionally: Print it's the next player's turn.
             }
         });
         sequenceTimer.start();
@@ -229,28 +230,53 @@ public class GamePanel extends JPanel implements ActionListener {
     
     
     //Check if user input equals sequence colour
-    public void playerPressedColor(Color color) {
-        if (waitingForUserInput) {
-            // Compare the pressed button's color to the current color in the sequence
-            if (!color.equals(colourSequence.getSequence()[currentSequenceIndex])) {
-                gameOver(); // If the colors don't match, game over
-                return;
-            }
+public void playerPressedColor(Color color) {
+    if (waitingForUserInput) {
+        // Compare the pressed button's color to the current color in the sequence
+        if (!color.equals(colourSequence.getSequence()[currentSequenceIndex])) {
+            gameOver(); // If the colors don't match, game over
+            return;
+        }
 
-            currentSequenceIndex++;
-    
-            if (currentSequenceIndex == round) { // Player successfully replicated the sequence
-                waitingForUserInput = false;
-                round++;
-                displaySequence(); // Start next round
+        currentSequenceIndex++;
+
+        if (currentSequenceIndex == colourSequence.getSequence().length) { // Player successfully replicated the sequence
+            waitingForUserInput = false;
+
+            // Check if it's Player 1's turn and switch turns
+            if (player1Turn) {
+                player1Turn = false; 
+                JOptionPane.showMessageDialog(this, "Player 2's turn");
+                playerTurn.setPlayer1Turn(player1Turn); 
+                currentSequenceIndex = 0;
+                colourSequence = new ColourSequence(round);
+                countdownTimer.stop();
+                timer = new PlayerTimer(10);
+                displaySequence();
             }
+            else {
+                player1Turn = true; 
+                playerTurn.setPlayer1Turn(player1Turn);
+                currentSequenceIndex = 0;
+                if (round == 10) {
+                    JOptionPane.showMessageDialog(this, "Congratulations! Both players have completed all rounds.");
+                    gameOver();
+                    return;
+                }
+                round++;
+                colourSequence = new ColourSequence(round); 
+                countdownTimer.stop();
+                timer = new PlayerTimer(10);
+                displaySequence();
+            }
+            
         }
     }
-    
+}
+
     //button pressed
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
     }
-
 }

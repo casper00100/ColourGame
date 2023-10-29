@@ -2,65 +2,39 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.Random;
+import java.awt.Graphics;
 
-public class PlayerTurn extends Rectangle {
 
-    //declare
-    static int GAME_WIDTH;
-	static int GAME_HEIGHT;
-    boolean turn_player1;
-    // int turn_player2;
+public class PlayerTurn {
 
-    HomeFrame homeFrame = new HomeFrame();
-    String nameplayer1 = homeFrame.name_player1;
-    String nameplayer2 = homeFrame.name_player2;
+    private int xPosition;
+    private int yPosition;
+    private static final int FONT_SIZE = 25;
 
-    Random random;
+    private boolean player1Turn;
 
-    //constructor
-    PlayerTurn(int GAME_WIDTH, int GAME_HEIGHT) {
-
-        PlayerTurn.GAME_WIDTH = GAME_WIDTH;
-        PlayerTurn.GAME_HEIGHT = GAME_HEIGHT;
-        
+    public PlayerTurn(int gameWidth, int gameHeight, boolean player1Turn) {
+        this.xPosition = gameWidth / 2 - 70; // Adjusted for approximate centering
+        this.yPosition = gameHeight / 4; // Positioned to the top 1/4 of the screen
+        this.player1Turn = player1Turn;
     }
 
-    //weet niet waar dit moet
+    public boolean isPlayer1Turn() {
+        return player1Turn;
+    }
 
-    public void firstTurn() {
-
-        // if (random.nextInt(2) == 0) {
-        //     turn_player1 = true;
-        // } else {
-        //     turn_player1 = false;
-        // }
-
+    public void setPlayer1Turn(boolean player1Turn) {
+        this.player1Turn = player1Turn;
     }
 
     public void draw(Graphics g) {
-
-        random = new Random();
-
-        if (nameplayer1.equals("")) {
-            nameplayer1 = "player 1";
-        }
-        if (nameplayer2.equals("")) {
-            nameplayer2 = "player 2";
-        }
-
         g.setColor(Color.WHITE);
-        g.setFont(new Font("Consolas", Font.PLAIN,45));
-        g.drawString("Turn:", 350, 100);
-            
-        if (random.nextInt(2) == 0) {
-            turn_player1 = true;
-            g.drawString(nameplayer1, 350, 200);
+        g.setFont(new Font("Arial", Font.BOLD, FONT_SIZE));
+        if (player1Turn) {
+            g.drawString("Player 1's Turn", xPosition, yPosition);
         } else {
-            turn_player1 = false;
-            g.drawString(nameplayer2, 350, 200);
-
+            g.drawString("Player 2's Turn", xPosition, yPosition);
         }
-
     }
-
 }
+

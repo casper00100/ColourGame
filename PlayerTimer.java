@@ -27,8 +27,8 @@ public class PlayerTimer extends Rectangle {
     }
 
     public void update() {
-        // Implement your countdown logic here
-        countdown = countdown - 0.1;
+        // Implement countdown logic here
+        countdown = countdown - 1;
 
         if (countdown < 0) {
             countdown = 0;
