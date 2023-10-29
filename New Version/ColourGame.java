@@ -1,10 +1,9 @@
-import javax.swing.*; //Swing components for GUI creation
 import java.awt.*; //AWT components for graphical and user interface elements
-import java.awt.event.*; //AWT classes used for event handling
-import java.util.Random; //Utility class for randomization
-import java.util.ArrayList; //Utility class used for resizable array to store the colour sequences
+import javax.swing.*; //Swing components for GUI creation
 
-//Create the main game frame
+/**
+ * Create the main game frame and handle game mode selection.
+ */
 public class ColourGame extends JFrame {
 
     //Components for main game setup and gameplay options
@@ -13,7 +12,9 @@ public class ColourGame extends JFrame {
     private JButton multiplayerButton;
     private JTextArea gameExplanation;
     
-    //Initialize the main game window
+    /**
+     * Initialize the main game window and components.
+     */
     public ColourGame() {
         setTitle("Colour Game");
         setSize(800, 600);
@@ -51,8 +52,9 @@ public class ColourGame extends JFrame {
         
             if (result == JOptionPane.OK_OPTION) {
                 gamePanel.setMultiplayerMode(true);
-                gamePanel.setPlayerNames(player1Field.getText().isEmpty() ? "Player 1" : player1Field.getText(), 
-                                            player2Field.getText().isEmpty() ? "Player 2" : player2Field.getText());
+                gamePanel.setPlayerNames(
+                    player1Field.getText().isEmpty() ? "Player 1" : player1Field.getText(), 
+                    player2Field.getText().isEmpty() ? "Player 2" : player2Field.getText());
                 getContentPane().removeAll();
                 setLayout(new BorderLayout());
                 add(gamePanel, BorderLayout.CENTER);
@@ -73,14 +75,17 @@ public class ColourGame extends JFrame {
         gameExplanation.setFont(UIManager.getFont("Label.font"));
         gameExplanation.setBorder(UIManager.getBorder("Label.border"));
         
-        String explanationText = "Welcome to the Colour Game!\n\n" +
-                                 "In this game, a sequence of colors will flash on the screen. " +
-                                 "Your objective is to memorize and replicate the sequence by " +
-                                 "clicking on the respective colors in the exact order, within 10 seconds. \n\n" + 
-                                 "Every two rounds, the length of the sequence increases to make it more difficult.\n\n" +
-                                 "Complete the sequence within 4 seconds to earn more points!\n\n" +
-                                 "For multiplayer only: fill in your names after selecting the game mode to see whose turn it is.\n\n" +
-                                 "Choose a game mode to start playing!";
+        String explanationText = 
+            "Welcome to the Colour Game!\n\n" 
+            + "In this game, a sequence of colors will flash on the screen. " 
+            + "Your objective is to memorize and replicate the sequence by " 
+            + "clicking on the respective colors in the exact order, within 10 seconds. \n\n" 
+            + "Every two rounds, " 
+            + "the length of the sequence increases to make it more difficult.\n\n" 
+            + "Complete the sequence within 4 seconds to earn more points!\n\n" 
+            + "For multiplayer only:"
+            + " Fill in your names after selecting the game mode to see whose turn it is.\n\n" 
+            + "Choose a game mode to start playing!";
         gameExplanation.setText(explanationText);
 
         add(gameExplanation, BorderLayout.NORTH); //Center the text

@@ -1,7 +1,13 @@
+/**
+ * Encapsulate information about a player, including their name and score.
+ */
 public class PlayerInfo {
     private String name;
     private int score;
 
+    /**
+     * Initialize a new player with a name and score of 0.
+     */
     public PlayerInfo(String name) {
         this.name = name;
         this.score = 0;
