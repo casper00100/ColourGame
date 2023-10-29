@@ -34,7 +34,7 @@ public class ButtonPanel extends JPanel implements ActionListener {
         this.setFocusable(true);
         this.setLayout(new GridLayout());
 
-        Color[] buttonColors = {Color.RED, Color.YELLOW, Color.BLUE, Color.MAGENTA, Color.GREEN};
+        Color[] buttonColors = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.MAGENTA};
 
         for (int i = 0; i < colorButtons.length; i++) {
             colorButtons[i] = new JButton();

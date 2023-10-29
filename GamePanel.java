@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.Random;
-import java.awt.Graphics;
 
 
 public class GamePanel extends JPanel implements ActionListener {
@@ -76,21 +75,20 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void startGame() {
-
+        // Stop any active timers
+        if(sequenceTimer != null) {
+            sequenceTimer.stop();
+        }
+        if(countdownTimer != null) {
+            countdownTimer.stop();
+        }
+    
         //call things
         playerTurn = new PlayerTurn(GAME_WIDTH, GAME_HEIGHT, player1Turn);
         score = new Score(GAME_WIDTH, GAME_HEIGHT);
         level = new Level(GAME_WIDTH, GAME_HEIGHT);
         mode = new Mode(GAME_WIDTH, GAME_HEIGHT);
-        
-        colourSequence = new ColourSequence(round);
-
-        //TODO timer countdown from 10 sec
-
-
-        colourSequence = new ColourSequence(round);
         displaySequence();
-
         timer = new PlayerTimer(10);
         newTimer();
     }
@@ -172,6 +170,13 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void newTimer() {
+        if(sequenceTimer != null) {
+            sequenceTimer.stop();
+        }
+        if(countdownTimer != null) {
+            countdownTimer.stop();
+        }
+    
         double countdown = 10;
         timer = new PlayerTimer(countdown);
     
@@ -190,8 +195,15 @@ public class GamePanel extends JPanel implements ActionListener {
         countdownTimer.start();
     }
     
+    
 
     private void displaySequence() {
+        if(countdownTimer != null) {
+            countdownTimer.stop();
+        }
+        if(sequenceTimer != null) {
+            sequenceTimer.stop();
+        }
         currentSequenceIndex = 0; // Reset the index
     
         sequenceTimer = new javax.swing.Timer(1500, e -> {
@@ -216,6 +228,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 currentSequenceIndex++;
             } else {
                 sequenceTimer.stop();
+                countdownTimer.start();
                 waitingForUserInput = true;
     
                 // Make all buttons visible again for the player's turn
@@ -233,45 +246,35 @@ public class GamePanel extends JPanel implements ActionListener {
         if (waitingForUserInput) {
             // Compare the pressed button's color to the current color in the sequence
             if (!color.equals(colourSequence.getSequence()[currentSequenceIndex])) {
+                countdownTimer.stop();
                 gameOver(); // If the colors don't match, game over
                 return;
             }
     
             currentSequenceIndex++;
     
-            if (currentSequenceIndex == colourSequence.getSequence().length) { // Player successfully replicated the sequence
+            if (currentSequenceIndex == colourSequence.getSequence().length) {
+                countdownTimer.stop();
                 waitingForUserInput = false;
-    
                 if (player1Turn) {
-                    player1Turn = false; // Switch to player 2
+                    player1Turn = false;
                     JOptionPane.showMessageDialog(this, "Player 2's turn");
-                    currentSequenceIndex = 0; // Reset index for Player 2
-                    displaySequence();
                 } else {
-                    if (round == 10) { // Check if it's the last round
+                    player1Turn = true;
+                    round++;
+                    if (round > 10) {
                         JOptionPane.showMessageDialog(this, "Congratulations! Both players have completed all rounds.");
                         gameOver();
                         return;
                     }
-                    round++;
-                    player1Turn = true; // Switch back to player 1 for the new round
-                    if (player1Turn) {
-                        player1Turn = false; 
-                        playerTurn.setPlayer1Turn(player1Turn); // Update the player turn
-                        currentSequenceIndex = 0; 
-                        displaySequence();
-                    } else {
-                        player1Turn = true; 
-                        playerTurn.setPlayer1Turn(player1Turn); // Update the player turn
-                    }
-                    
-                    colourSequence = new ColourSequence(round);
-                    currentSequenceIndex = 0; // Reset index for the new sequence
-                    displaySequence();
                 }
+                currentSequenceIndex = 0;
+                colourSequence = new ColourSequence(round);
+                displaySequence();
+            }
+        
             }
         }
-    }
     
     
     
